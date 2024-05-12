@@ -1,11 +1,11 @@
-VS Code
+## VS Code
 
-Install entity framework package 
+### Install entity framework package 
 ```
 dotnet tool install --global dotnet-ef --version 7.0.18
 ```
 
-run Migrations
+### Run Migrations
 1. Open the terminal pointing to the Data project
 2. The Connection string must contain TrustServerCertificate=true
 ```
