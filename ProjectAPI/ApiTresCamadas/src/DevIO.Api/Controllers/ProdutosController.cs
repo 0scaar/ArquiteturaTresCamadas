@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ public class ProdutosController : MainController
 
     public ProdutosController(IProdutoRepository produtoRepository,
                                 IProdutoService produtoService,
-                                IMapper mapper)
+                                IMapper mapper,
+                                INotificador notificador) : base (notificador)
     {
         _produtoRepository = produtoRepository;
         _produtoService = produtoService;
@@ -44,7 +46,7 @@ public class ProdutosController : MainController
 
         await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
-        return CustomResponse(produtoViewModel);
+        return CustomResponse(HttpStatusCode.Created, produtoViewModel);
     }
 
     [HttpPut("{id:guid}")]
@@ -68,7 +70,7 @@ public class ProdutosController : MainController
 
         await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
-        return CustomResponse();
+        return CustomResponse(HttpStatusCode.NoContent);
     }
 
     [HttpDelete("{id:guid}")]
@@ -80,7 +82,7 @@ public class ProdutosController : MainController
 
         await _produtoService.Remover(id);
 
-        return CustomResponse();
+        return CustomResponse(HttpStatusCode.NoContent);
     }
 
     private async Task<ProdutoViewModel> ObterProduto(Guid id)
